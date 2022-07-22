@@ -11,7 +11,7 @@ body {
 }
 
 #calculator-container {
-    width: 600px;
+    width: 500px;
     height: 700px;
     background-color: #C0C1B7;
     display: flex;
@@ -20,15 +20,40 @@ body {
 
 #screen-container {
     display: flex;
-    padding: 30px;
 }
 
 #screen {
+    display: flex;
     width: 600px;
-    height: 100px;
+    height: 80px;
+    margin: 30px;
+    padding: 30px;
     background-color: #ffffff;
+    font-size: 48px;
+    justify-content: flex-end;
+    align-items: flex-end;
+    
+}
+
+#button-pad {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 30px;
+    margin: 30px;
+}
+
+.row {
+    display: flex;
+    gap: 20px; 
 }
 
 .button {
-
+    display: flex;
+    width: 90px;
+    height: 90px;
+    background-color: #ffffff;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
 }
