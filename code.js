@@ -1,5 +1,7 @@
 let displayNumber = 0;
 let numberLength = 1;
+let previousNumber = null;
+let operator = null;
 const display = document.getElementById("screen");
 
 
@@ -12,20 +14,54 @@ document.querySelectorAll('.number').forEach(number => {
         } else {
             displayNumber = `${displayNumber}${number.id}`;
             numberLength = displayNumber.length;
-            console.log(numberLength);
         }
         display.textContent = displayNumber;
     });
 });
 
-//--------Functions-------------//
-
+document.querySelectorAll('.operator').forEach(operation => {
+    operation.addEventListener('click', () => {
+        if (operation.id === "clear"){
+            reset();
+            display.textContent = displayNumber;
+        } else if (operation.id === "equals"){
+            if (!previousNumber || !operator) return;
+            if (operator === "/" && displayNumber === "0"){
+                alert("Don't do that >:( \n\n\nResetting...");
+                reset();
+                return;
+            }
+            display.textContent = operate(operator, previousNumber, displayNumber);
+        } else {
+            if (!previousNumber){
+                previousNumber = displayNumber;
+                operator = operation.id;
+                displayNumber = 0;
+                numberLength = 1;
+            } else {
+                if (operator === "/" && displayNumber === "0"){
+                    alert("Don't do that >:( \n\n\nResetting...");
+                    reset();
+                    return;
+                }
+                previousNumber = operate(operator, previousNumber, displayNumber);
+                operator = operation.id;
+                display.textContent = previousNumber;
+                displayNumber = 0;
+                numberLength = 1;
+            }
+        }
+    });
+});
 
 //--------Operations-------------//
-const add = (x, y) => x + y;
-const subtract = (x, y) => x - y;
-const multiply = (x, y) => x * y;
-const divide = (x, y) => x / y;
+const add = (x, y) => (+x) + (+y);
+const subtract = (x, y) => (+x) - (+y);
+const multiply = (x, y) => (+x) * (+y);
+const divide = (x, y) => {
+    let number = (+x) / (+y);
+    return number.toFixed(2);
+}
 const operate = (operator, x, y) => {
     switch (operator){
         case "+":
@@ -42,18 +78,9 @@ const operate = (operator, x, y) => {
             break;
     }
 }
-
-/*--------Tests-------------
-console.log(add(2, 59));
-console.log(add(0, 41));
-console.log(add(-5, 26));
-console.log(subtract(2, 59));
-console.log(subtract(0, 41));
-console.log(subtract(-5, 26));
-console.log(multiply(2, 59));
-console.log(multiply(0, 41));
-console.log(multiply(-5, 26));
-console.log(divide(4, 2));
-console.log(divide(2, 4));
-console.log(divide(4, 0));
-*/
+const reset = () => {
+    displayNumber = 0;
+    numberLength = 1;
+    previousNumber = null;
+    operator = null;
+}
